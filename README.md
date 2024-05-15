@@ -2,27 +2,25 @@
 
 ## Giới Thiệu sơ bộ về đề tài
 Sử dụng api từ nasa để lấy thông tin về thiên văn học, vũ trụ, ...
-### Các chức năng 
-1. Xem bức ảnh thiên văn ngẫu nhiên trong ngày (Chức năng funny)
-2. Hình ảnh trái đất chụp từ Landsat8,...
-3. Xem thông tin về Solar Flare (FLR)
 
-## Nguồn về các api chức năng
-1. Api: https://api.nasa.gov/
-2. https://images.nasa.gov/docs/images.nasa.gov_api_docs.pdf
-3. https://eonet.gsfc.nasa.gov/docs/v2.1
-4. https://worldview.earthdata.nasa.gov/?v=-108.17326652518148,-71.38779658606659,284.4531776339969,127.73720341393341&t=2024-05-15-T10%3A24%3A41Z
+## Cơ sở dữ liệu
+Bảng EONET_infor (Lưu thông tin về các sự kiện): event_id(PK), title, description, link, event_date
+Stored Procedures: SP_get5nearestenvent: Lấy thông tin về 5 sự kiện tự nhiên xảy ra gần đây nhất 
 
-## Sơ đồ tổng quát
-1. SQL: Dự tính có 2 sp select và insert, 3 bảng. Chưa phân tích rõ nên cần cập nhật thêm
-2. Module: Python+fastapi, php(có thể), html+css+js,....
-3. Node-red: Chu trình hiện tại chưa nghiên cứu(sẽ cập nhật thêm)
+## Module đọc dữ liệu
+Sử dụng Python và fastapi để lấy dữ liệu từ website nasa
 
-## Cài Đặt
-EMPTY
+## Mô tả nguồn dữ liệu
+- Sử dụng Web Scraping hoặc lấy dữ liệu qua API của các trang web chuyên về bóng đá.
+- Dữ liệu bao gồm thông tin về các sự kiện tự nhiên, địa điểm, thời điểm
 
-## Sử Dụng
-EMPTY
+## Node-red
+Xây dựng flow để tự động gọi api liên tục để lấy dữ liệu. Sau đó xử lý dữ liệu và insert vào db
+
+## Website
+- Xây dựng trang web để hiển thị được các thông tin về các sự kiện tự nhiên
+- Hiển thị được ảnh APOD (bức ảnh thiên văn như này)
+- Sử dụng HTML, CSS, Javascript để thực hiện xây dựng và thiết kế trang web
 
 ## Cập Nhật
 Nếu có bất kỳ vấn đề hoặc yêu cầu nâng cấp, vui lòng tạo một issue mới trong repository này.
@@ -38,4 +36,4 @@ Nếu có bất kỳ vấn đề hoặc yêu cầu nâng cấp, vui lòng tạo 
 Không có giấy phép.
 
 ## Image
-![Sơ đồ quy trình đơn giản](https://i.imgur.com/FgSqrXk.png)
+![Sơ đồ quy trình đơn giản](https://i.imgur.com/yeGfFZF.png)
