@@ -1,11 +1,10 @@
-# Dự Án Đăng Bài về Shiba, cat, bird lên facebook
+# Dự Án tạo trang web hiển thị thông tin về thiên văn học
 
-## Giới Thiệu
-Sử dụng api để lấy thông tin về ảnh như url và sử dụng để tự động đăng bài trên facebook với ảnh lấy được
+## Giới Thiệu sơ bộ về đề tài
+Sử dụng api từ nasa để lấy thông tin về thiên văn học, vũ trụ, ...
 
 ## Nguồn
-1. Api: https://shibe.online/
-2. Facebook: https://developers.facebook.com/docs/graph-api
+1. Api: https://api.nasa.gov/
 
 ## Cài Đặt
 EMPTY
@@ -19,6 +18,9 @@ Nếu có bất kỳ vấn đề hoặc yêu cầu nâng cấp, vui lòng tạo 
 ## Tác Giả
 - Họ và Tên: [D-makaeenm](https://github.com/D-makaeenm)
 - Email: k2005480106010@tnut.edu.vn
+- Mssv: K205480106010
+- Lớp: 56KMT
+- Môn học: Lập trình Python
 
 ## Giấy Phép
 Không có giấy phép.
