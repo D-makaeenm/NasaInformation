@@ -38,4 +38,4 @@ Nếu có bất kỳ vấn đề hoặc yêu cầu nâng cấp, vui lòng tạo 
 Không có giấy phép.
 
 ## Image
-![Sơ đồ quy trình đơn giản](https://i.imgur.com/TXYox1f.png)
+![Sơ đồ quy trình đơn giản](https://i.imgur.com/FgSqrXk.png)

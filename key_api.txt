@@ -1,1 +1,18 @@
 fZ4RCNsZRYjsWcyAaF866WmMbIgzJDYrTI1MWnVq
+
+dùng python hoặc công cụ bất kỳ(1) lấy dữ liệu từ api -> Lưu vào db(2) -> từ db gửi lên web(4) -> web sẽ hiển thị thông tin lấy được từ json db gửi lên qua api (5)
+(1): Python + fastapi (có thể còn cái khác)
+(2): các bảng dựa trên chức năng 
+bảng image_of_earth: id, image_path
+bảng information_Solar Flare: flrID: ID của sự kiện phát xạ mặt trời.
+instruments: Các công cụ hoặc thiết bị được sử dụng để quan sát sự kiện, trong trường hợp này là "GOES15: SEM/XRS 1.0-8.0".
+beginTime: Thời gian bắt đầu của sự kiện phát xạ mặt trời.
+peakTime: Thời gian đỉnh điểm của sự kiện.
+endTime: Thời gian kết thúc của sự kiện, nếu có.
+classType: Loại sự kiện, trong trường hợp này là "M2.3".
+sourceLocation: Vị trí của nguồn phát xạ trên mặt trời.
+activeRegionNum: Số hiệu của khu vực hoạt động trên mặt trời.
+note: Ghi chú hoặc thông tin bổ sung về sự kiện.
+linkedEvents: Các sự kiện liên quan đến sự kiện phát xạ mặt trời này, trong trường hợp này là các sự kiện CME (Coronal Mass Ejection) và SEP (Solar Energetic Particle).
+submissionTime: Thời gian nộp sự kiện.
+link: Liên kết đến trang web cung cấp thông tin chi tiết về sự kiện.
