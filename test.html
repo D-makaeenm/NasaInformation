@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.js"></script>
+    <script src="https://kit.fontawesome.com/e2cb9211c0.js" crossorigin="anonymous"></script>
+    <title>Thông tin về thiên văn học</title>
+</head>
+
+<body>
+    <button id="translate">dich</button>
+    <script>
+        $('#translate').click(function(){
+            const settings = {
+        async: true,
+        crossDomain: true,
+        url: 'https://google-translate113.p.rapidapi.com/api/v1/translator/text',
+        method: 'POST',
+        headers: {
+            'content-type': 'application/x-www-form-urlencoded',
+            'X-RapidAPI-Key': 'd6259ab702msh65d86c47cca0d6bp112804jsn8f0c70493c96',
+            'X-RapidAPI-Host': 'google-translate113.p.rapidapi.com'
+        },
+        data: {
+            from: 'auto',
+            to: 'vi',
+            text: 'Hello'
+        }
+    };
+    
+
+    // Gửi yêu cầu dịch qua API của RapidAPI
+    $.ajax(settings).done(function (response) {
+        // Lấy văn bản đã dịch từ response và cập nhật nội dung HTML
+        var translatedText = response.translated_text;
+        console.log(response);
+        $("#explanation_translate").text(translatedText);
+    });
+        });
+    </script>
+</body>
+
+</html>

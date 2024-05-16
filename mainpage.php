@@ -23,7 +23,8 @@
         <div id="nav_bar">
             <nav class="navbar navbar-expand-lg bg-body-tertiary">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="#"><img src="https://www.nasa.gov/wp-content/themes/nasa/assets/images/nasa-logo.svg" alt=""></a>
+                    <a class="navbar-brand" href="#"><img
+                            src="https://www.nasa.gov/wp-content/themes/nasa/assets/images/nasa-logo.svg" alt=""></a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -32,7 +33,7 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                                <a class="nav-link active" id="apod_navbar" aria-current="page" href="#">APOD</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Link</a>
@@ -60,8 +61,22 @@
                 </div>
             </nav>
         </div>
-        <div id="mainpage">
-          asndaksdnasndasd
+
+        <div id="mainpage_APOD">
+            <div id="title">
+                <h1>Bức ảnh thiên văn trong ngày</h1>
+            </div>
+            <div id="img_apod">
+                <img src="" alt="Chưa load được ảnh">
+                <!-- https://apod.nasa.gov/apod/image/2405/WrightDobbs_Georgia_Aurora_2.jpg 16-5-2024 -->
+                <div id="explanation_img">
+                    <p id="author">Chưa load được tác giả</p>
+                    <p id="date_post">Chưa load được ngày chụp</p>
+                    <p id="title_post">Chưa load được tiêu đề</p>
+                    <p id="explanation">Chưa load được mô tả</p>
+                    <p id="explanation_translate">Dịch</p>
+                </div>
+            </div>
         </div>
     </div>
 </body>

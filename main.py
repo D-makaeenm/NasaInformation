@@ -2,44 +2,27 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 import requests
 from datetime import datetime, timedelta
+from easygoogletranslate import EasyGoogleTranslate
 
 app = FastAPI()
 
-@app.get("/weather") #endopoint
-async def get_weather_data():
-    # Đoạn mã lấy dữ liệu thời tiết
+api_key = "fZ4RCNsZRYjsWcyAaF866WmMbIgzJDYrTI1MWnVq"
+url = f"https://api.nasa.gov/planetary/apod?api_key={api_key}"
 
-    def get_weather_data(city, api_key, date):
-        url = f"http://api.openweathermap.org/data/2.5/forecast?q={city}&appid={api_key}&units=metric"
-        response = requests.get(url)
+@app.get("/apod") #endopoint
+async def get_data_apod():
+    # Gửi yêu cầu GET đến API
+    response = requests.get(url)
+    if response.status_code == 200:
         data = response.json()
-        return data
-
-    def extract_weather_info(data):
-        weather_info = {}
-        for item in data['list']:
-            # Lấy chỉ ngày từ chuỗi datetime
-            date = item['dt_txt'].split()[0]
-            if date not in weather_info:
-                temperature = item['main']['temp']
-                humidity = item['main']['humidity']
-                pressure = item['main']['pressure']
-                rain = item.get('rain', {}).get('3h', 0)  # Lượng mưa trong 3 giờ (nếu có)
-                wind_speed = item['wind']['speed']
-                weather_info[date] = {'Date': date, 'Temperature': temperature, 'Humidity': humidity, 
-                                    'Pressure': pressure, 'City': city}
-        return list(weather_info.values())
-
-    def get_past_date(days):
-        today = datetime.now()
-        past_date = today - timedelta(days=days)
-        return past_date.strftime("%Y-%m-%d")
-
-    city = "Thai Nguyen"
-    api_key = "093bc10f5336f52a5c3c761e7b731280" 
-    past_date = get_past_date(7)  # Lấy dữ liệu 1 tuần trước
-
-    weather_data = get_weather_data(city, api_key, past_date)
-    weather_info = extract_weather_info(weather_data)
-
-    return JSONResponse(content=weather_info)
+        # explanation_en = data.get("explanation", "")
+        explanation_en = "A familiar sight from Georgia, USA, the Moon sets near the western horizon in this rural night skyscape. Captured on May 10 before local midnight, the image overexposes the Moon's bright waning crescent at left in the frame. A long irrigation rig stretches across farmland about 15 miles north of the city of Bainbridge. Shimmering curtains of aurora shine across the starry sky though, definitely an unfamiliar sight for southern Georgia nights. Last weekend, extreme geomagnetic storms triggered by the recent intense activity from solar active region AR 3664 brought epic displays of aurora, usually seen closer to the poles, to southern Georgia and even lower latitudes on planet Earth. As solar activity ramps up, more storms are possible.   AuroraSaurus: Report your aurora observations"
+        translator = EasyGoogleTranslate(source_language="en", target_language="vi")
+        explanation_vi = translator.translate(explanation_en)
+        
+        # Thêm trường translate_explanation vào dữ liệu
+        data["translate_explanation"] = explanation_vi
+    else:
+        print(f"Error: {response.status_code}")
+    
+    return JSONResponse(data)
