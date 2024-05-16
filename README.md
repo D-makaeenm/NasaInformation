@@ -4,8 +4,8 @@
 Sử dụng api từ nasa để lấy thông tin về thiên văn học, vũ trụ, ...
 
 ## Cơ sở dữ liệu
-Bảng EONET_infor (Lưu thông tin về các sự kiện): event_id(PK), title, description, link, event_date
-Stored Procedures: SP_get5nearestenvent: Lấy thông tin về 5 sự kiện tự nhiên xảy ra gần đây nhất 
+- Bảng EONET_infor (Lưu thông tin về các sự kiện): event_id(PK), title, description, link, event_date
+- Stored Procedures: SP_get5nearestenvent: Lấy thông tin về 5 sự kiện tự nhiên xảy ra gần đây nhất 
 
 ## Module đọc dữ liệu
 Sử dụng Python và fastapi để lấy dữ liệu từ website nasa
