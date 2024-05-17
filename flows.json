@@ -1,0 +1,354 @@
+[
+    {
+        "id": "9bb66bd4d6d678d6",
+        "type": "tab",
+        "label": "Flow 2",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "0a9e607d3e6ecf26",
+        "type": "MSSQL-CN",
+        "tdsVersion": "7_4",
+        "name": "SQLServer",
+        "server": "DUYVPRO",
+        "port": "1433",
+        "encyption": true,
+        "trustServerCertificate": true,
+        "database": "nasa",
+        "useUTC": true,
+        "connectTimeout": "15000",
+        "requestTimeout": "15000",
+        "cancelTimeout": "5000",
+        "pool": "5",
+        "parseJSON": false,
+        "enableArithAbort": true,
+        "readOnlyIntent": false
+    },
+    {
+        "id": "0c5cc871d2a656b4",
+        "type": "inject",
+        "z": "9bb66bd4d6d678d6",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "86400",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 210,
+        "y": 160,
+        "wires": [
+            [
+                "7683bf38584a13e4"
+            ]
+        ]
+    },
+    {
+        "id": "7683bf38584a13e4",
+        "type": "http request",
+        "z": "9bb66bd4d6d678d6",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:1234/apod",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 410,
+        "y": 160,
+        "wires": [
+            [
+                "3c819f0162e06d27"
+            ]
+        ]
+    },
+    {
+        "id": "7dc9ac4b0ef5e3e5",
+        "type": "MSSQL",
+        "z": "9bb66bd4d6d678d6",
+        "mssqlCN": "0a9e607d3e6ecf26",
+        "name": "",
+        "outField": "payload",
+        "returnType": 0,
+        "throwErrors": 1,
+        "query": "InsertApodData",
+        "modeOpt": "",
+        "modeOptType": "execute",
+        "queryOpt": "payload",
+        "queryOptType": "editor",
+        "paramsOpt": "",
+        "paramsOptType": "editor",
+        "rows": "rows",
+        "rowsType": "msg",
+        "parseMustache": true,
+        "params": [
+            {
+                "output": false,
+                "name": "copyright",
+                "type": "NVarChar",
+                "valueType": "msg",
+                "value": "payload.copyright",
+                "options": {
+                    "nullable": true,
+                    "primary": false,
+                    "identity": false,
+                    "readOnly": false
+                }
+            },
+            {
+                "output": false,
+                "name": "date",
+                "type": "Date",
+                "valueType": "msg",
+                "value": "payload.date",
+                "options": {
+                    "nullable": true,
+                    "primary": false,
+                    "identity": false,
+                    "readOnly": false
+                }
+            },
+            {
+                "output": false,
+                "name": "explanation",
+                "type": "Text",
+                "valueType": "msg",
+                "value": "payload.explanation",
+                "options": {
+                    "nullable": true,
+                    "primary": false,
+                    "identity": false,
+                    "readOnly": false
+                }
+            },
+            {
+                "output": false,
+                "name": "hdurl",
+                "type": "NVarChar",
+                "valueType": "msg",
+                "value": "payload.hdurl",
+                "options": {
+                    "nullable": true,
+                    "primary": false,
+                    "identity": false,
+                    "readOnly": false
+                }
+            },
+            {
+                "output": false,
+                "name": "media_type",
+                "type": "NVarChar",
+                "valueType": "msg",
+                "value": "payload.media_type",
+                "options": {
+                    "nullable": true,
+                    "primary": false,
+                    "identity": false,
+                    "readOnly": false
+                }
+            },
+            {
+                "output": false,
+                "name": "service_version",
+                "type": "NVarChar",
+                "valueType": "msg",
+                "value": "payload.service_version",
+                "options": {
+                    "nullable": true,
+                    "primary": false,
+                    "identity": false,
+                    "readOnly": false
+                }
+            },
+            {
+                "output": false,
+                "name": "title",
+                "type": "NVarChar",
+                "valueType": "msg",
+                "value": "payload.title",
+                "options": {
+                    "nullable": true,
+                    "primary": false,
+                    "identity": false,
+                    "readOnly": false
+                }
+            },
+            {
+                "output": false,
+                "name": "url",
+                "type": "NVarChar",
+                "valueType": "msg",
+                "value": "payload.url",
+                "options": {
+                    "nullable": true,
+                    "primary": false,
+                    "identity": false,
+                    "readOnly": false
+                }
+            }
+        ],
+        "x": 780,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "469cde82d548208d",
+        "type": "function",
+        "z": "9bb66bd4d6d678d6",
+        "name": "function 1",
+        "func": "// Lấy dữ liệu JSON từ đầu vào\nvar data = msg.payload;\n\n// Trích xuất dữ liệu từ đối tượng JSON\nvar copyright = data.copyright;\nvar date = data.date;\nvar explanation = data.explanation;\nvar hdurl = data.hdurl;\nvar media_type = data.media_type;\nvar service_version = data.service_version;\nvar title = data.title;\nvar url = data.url;\nvar translate_explanation = data.translate_explanation;\n\n// Lưu trữ dữ liệu vào một đối tượng để truyền vào node mssql\nvar sqlData = {\n    copyright: copyright,\n    date: date,\n    explanation: explanation,\n    hdurl: hdurl,\n    media_type: media_type,\n    service_version: service_version,\n    title: title,\n    url: url,\n    translate_explanation: translate_explanation\n};\n\n// Gửi dữ liệu vào output cho node mssql\nmsg.sqlData = sqlData;\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 160,
+        "wires": [
+            [
+                "7dc9ac4b0ef5e3e5"
+            ]
+        ]
+    },
+    {
+        "id": "3c819f0162e06d27",
+        "type": "json",
+        "z": "9bb66bd4d6d678d6",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 610,
+        "y": 160,
+        "wires": [
+            [
+                "469cde82d548208d"
+            ]
+        ]
+    },
+    {
+        "id": "d205833b79d6b187",
+        "type": "inject",
+        "z": "9bb66bd4d6d678d6",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 100,
+        "y": 300,
+        "wires": [
+            [
+                "ccc6f55bce8373ae"
+            ]
+        ]
+    },
+    {
+        "id": "ccc6f55bce8373ae",
+        "type": "http request",
+        "z": "9bb66bd4d6d678d6",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:1234/EONET",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 270,
+        "y": 300,
+        "wires": [
+            [
+                "b7088a83b64d064c"
+            ]
+        ]
+    },
+    {
+        "id": "2ca8a0665b736448",
+        "type": "function",
+        "z": "9bb66bd4d6d678d6",
+        "name": "function 2",
+        "func": "// Lấy dữ liệu từ msg.payload\nvar events = msg.payload.features;\nvar newData = [];\n\n// Chuyển đổi dữ liệu thành định dạng phù hợp cho endpoint\nevents.forEach(function(event) {\n    var eventData = {\n        id: event.properties.id,\n        title: event.properties.title,\n        date: event.properties.date,\n        descriptions: event.properties.descriptions,\n        link: event.properties.link,\n        closed: event.properties.closed,\n        magnitudeValue: event.properties.magnitudeValue,\n        magnitudeUnit: event.properties.magnitudeUnit,\n        url: (event.properties.sources && event.properties.sources.length > 0) ? event.properties.sources[0].url : null\n    };\n    newData.push(eventData);\n});\n\n// Gửi dữ liệu đã được xử lý qua output\nmsg.payload = newData;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 420,
+        "wires": [
+            [
+                "c6fb5f918150643c"
+            ]
+        ]
+    },
+    {
+        "id": "b7088a83b64d064c",
+        "type": "json",
+        "z": "9bb66bd4d6d678d6",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 430,
+        "y": 300,
+        "wires": [
+            [
+                "2ca8a0665b736448"
+            ]
+        ]
+    },
+    {
+        "id": "c6fb5f918150643c",
+        "type": "debug",
+        "z": "9bb66bd4d6d678d6",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 840,
+        "y": 400,
+        "wires": []
+    }
+]

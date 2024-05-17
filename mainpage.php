@@ -79,7 +79,27 @@
             </div>
         </div>
         <div id="mainpage_EONET">
-
+            <h2>EONET Events</h2>
+            <div id="table_eonet">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Link</th>
+                            <th>Closed</th>
+                            <th>Date EONET</th>
+                            <th>Magnitude Value</th>
+                            <th>Magnitude Unit</th>
+                            <th>URLs</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dữ liệu sẽ được thêm bằng mã PHP hoặc JavaScript -->
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </body>

@@ -35,6 +35,7 @@ $(document).ready(function() {
         var eonet_page = document.getElementById('mainpage_EONET');
         eonet_page.style.display = "block";
         apod_page.style.display = "none";
+        getEonetData();
     });
     $('#prev_apod').click(function(){
         getprevAPOD();
@@ -141,6 +142,35 @@ function getnextAPOD(currentDate){
         },
         error: function(xhr, status, error) {
             console.error("Lỗi khi gửi yêu cầu AJAX: " + error);
+        }
+    });
+}
+
+function getEonetData(){
+    $.ajax({
+        url: "api/apigetDataEonet.php", // Thay đổi URL này thành endpoint của bạn
+        method: "GET",
+        success: function(data) {
+            var events = JSON.parse(data);
+            var tableBody = $("#eonetTable tbody");
+            tableBody.empty(); // Xóa các hàng hiện có
+            $.each(events, function(index, event) {
+                var row = "<tr>" +
+                    "<td>" + event.id + "</td>" +
+                    "<td>" + event.title + "</td>" +
+                    "<td>" + event.descriptions + "</td>" +
+                    "<td>" + event.link + "</td>" +
+                    "<td>" + event.closed + "</td>" +
+                    "<td>" + event.date_eonet + "</td>" +
+                    "<td>" + event.magnitudeValue + "</td>" +
+                    "<td>" + event.magnitudeUnit + "</td>" +
+                    "<td>" + event.urls + "</td>" +
+                    "</tr>";
+                tableBody.append(row);
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error("Error fetching data:", error);
         }
     });
 }
