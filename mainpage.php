@@ -65,6 +65,8 @@
         <div id="mainpage_APOD">
             <div id="title">
                 <h1>Bức ảnh thiên văn trong ngày</h1>
+                <input type="date" id="picked_date">
+                <button>Xem</button>
             </div>
             <div id="img_apod">
                 <img src="" alt="Chưa load được ảnh">
@@ -74,7 +76,6 @@
                     <p id="date_post">Chưa load được ngày chụp</p>
                     <p id="title_post">Chưa load được tiêu đề</p>
                     <p id="explanation">Chưa load được mô tả</p>
-                    <p id="explanation_translate">Dịch</p>
                 </div>
             </div>
         </div>

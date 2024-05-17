@@ -1,0 +1,3 @@
+Khắc phục api bị khóa có gải pháp:
+- Clone thẳng api của nasa về rồi gọi từ localhost hoặc 127.0.0.1:8000
+- Pick date trên html rồi gửi ajax về python để thay ngày lấy ảnh
