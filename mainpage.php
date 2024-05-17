@@ -16,6 +16,7 @@
     <title>Thông tin về thiên văn học</title>
     <link rel="stylesheet" href="mainpage.css">
     <script src="mainpage.js"></script>
+    <script src="test.js"></script>
 </head>
 
 <body>
@@ -36,7 +37,7 @@
                                 <a class="nav-link active" id="apod_navbar" aria-current="page" href="#">APOD</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Link</a>
+                                <a class="nav-link" id="eonet_navbar" href="#">EONET</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -53,10 +54,6 @@
                                 </ul>
                             </li>
                         </ul>
-                        <form class="d-flex" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
-                        </form>
                     </div>
                 </div>
             </nav>
@@ -64,9 +61,11 @@
 
         <div id="mainpage_APOD">
             <div id="title">
+                <div id="prev_apod">Ngày hôm qua</div>
                 <h1>Bức ảnh thiên văn trong ngày</h1>
-                <input type="date" id="picked_date">
-                <button>Xem</button>
+                <div id="next_apod">Ngày kế tiếp</div>
+                <!-- <input type="date" id="picked_date">
+                <button id="sumbit_picked_date">Xem</button> -->
             </div>
             <div id="img_apod">
                 <img src="" alt="Chưa load được ảnh">
@@ -78,6 +77,9 @@
                     <p id="explanation">Chưa load được mô tả</p>
                 </div>
             </div>
+        </div>
+        <div id="mainpage_EONET">
+
         </div>
     </div>
 </body>

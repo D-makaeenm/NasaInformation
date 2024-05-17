@@ -11,7 +11,9 @@ api_key = "NbAeciw6tcGxCk3lF7fRh13vh95ykBTua0oLJDdx"
 @app.get("/apod") #endopoint
 async def get_data_apod():
     # Gửi yêu cầu GET đến API
-    url = f"http://127.0.0.1:8000/v1/apod/?concept_tags=True&date={dates}"
+    now = datetime.now()
+    formatted_date = now.strftime("%Y-%m-%d")
+    url = f"http://127.0.0.1:8000/v1/apod/?concept_tags=True&date={formatted_date}"
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json()
@@ -26,7 +28,7 @@ async def get_data_apod():
     
     return JSONResponse(data)
 
-@app.get("/EONET")
-async def get_data_eonet():
-    url = 
-    response = requests.get(url)
+# @app.get("/EONET")
+# async def get_data_eonet():
+#     url = 
+#     response = requests.get(url)

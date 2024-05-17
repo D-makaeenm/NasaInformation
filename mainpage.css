@@ -43,8 +43,22 @@
 }
 #title{
     display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
+}
+#title div {
+    margin-left: 20px;
+    margin-right: 20px;
+    background-color: rgb(105, 185, 185);
+    border-radius: 10px;
+    color: black;
+    padding: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+#title div:hover {
+    background-color: rgb(63, 122, 122);
 }
 #img_apod img{
     width: 70%;
@@ -52,4 +66,18 @@
 }
 #explanation_img{
     margin-left: 10px;
+}
+#picked_date{
+    margin-left: 20px;
+}
+#sumbit_picked_date{
+    border-radius: 5px;
+    width: 70px;
+    height: 30px;
+    font-weight: bold;
+    background-color: #6cb56f;
+    margin-left: 10px;
+}
+#mainpage_EONET{
+    display: none;
 }
