@@ -1,5 +1,4 @@
 <?php
-
 $serverName = "DUYVPRO";
 $connectionOptions = array(
     "Database" => "nasa",
@@ -8,11 +7,12 @@ $connectionOptions = array(
 );
 $conn = sqlsrv_connect($serverName, $connectionOptions);
 
-if ($conn === false) {
-    die(print_r(sqlsrv_errors(), true));
+if (!$conn) {
+    echo "Kết nối thất bại: " . sqlsrv_errors();
+    exit;
 }
 
-$sql = "EXEC [dbo].[SelectEonetEvents]";
+$sql = "EXEC SelectEonetEvents";
 $stmt = sqlsrv_query($conn, $sql);
 
 if ($stmt === false) {
@@ -20,6 +20,9 @@ if ($stmt === false) {
 } else {
     $events = array();
     while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
+        // Trích xuất ngày từ đối tượng DateTime và định dạng lại
+        $date_eonet = $row['date_eonet']->format('Y-m-d');
+        $row['date_eonet'] = $date_eonet;
         $events[] = $row;
     }
 
@@ -29,5 +32,4 @@ if ($stmt === false) {
 
 sqlsrv_free_stmt($stmt);
 sqlsrv_close($conn);
-
 ?>

@@ -13,7 +13,7 @@ async def get_data_apod():
     # Gửi yêu cầu GET đến API
     now = datetime.now()
     formatted_date = now.strftime("%Y-%m-%d")
-    url = f"http://127.0.0.1:8000/v1/apod/?concept_tags=True&date={formatted_date}"
+    url = f"http://127.0.0.1:8000/v1/apod/?concept_tags=True&date"
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json()

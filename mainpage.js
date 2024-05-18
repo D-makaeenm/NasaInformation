@@ -31,11 +31,11 @@ $(document).ready(function() {
         apod_page.style.display = "block";
     });
     $('#eonet_navbar').click(function(){
+        getEonetData();
         var apod_page = document.getElementById('mainpage_APOD');
         var eonet_page = document.getElementById('mainpage_EONET');
         eonet_page.style.display = "block";
         apod_page.style.display = "none";
-        getEonetData();
     });
     $('#prev_apod').click(function(){
         getprevAPOD();
@@ -46,8 +46,15 @@ $(document).ready(function() {
         var currentDate = $('#date_post').text();
         getnextAPOD(currentDate);
     });
+    
+    getdateglobal.setDate(getdateglobal.getDate() - 1);
+    console.log(getdateglobal + "onload");
 
 });
+var getdateglobal = new Date();
+var getdateglobal_unchange = getdateglobal;
+getdateglobal_unchange = getdateglobal_unchange.toISOString().split('T')[0];
+
 function apod_load(){
     var next_apod = document.getElementById('next_apod');
     next_apod.style.display = "none";
@@ -83,11 +90,21 @@ function apod_load(){
         }
     });
 }
-function getprevAPOD(){
+
+function getprevAPOD() {
+    var currentDate = getdateglobal.toISOString().split('T')[0];
+    getdateglobal.setDate(getdateglobal.getDate() - 1);
+    console.log(getdateglobal +"indasd");
+    alert(currentDate);
+    if(currentDate === "2024-05-16"){
+        var next_apod1 = document.getElementById('prev_apod');
+        next_apod1.style.display = "none";
+    }
     $.ajax({
         type: "GET",
         url: "api/apiAPOD_getprev.php",
         dataType: "json",
+        data: { current_date: currentDate },
         success: function (response) {
             // Kiểm tra xem dữ liệu trả về từ API có tồn tại và hợp lệ không
             if (response && response[0]) {
@@ -116,12 +133,22 @@ function getprevAPOD(){
         }
     });
 }
-function getnextAPOD(currentDate){
+
+function getnextAPOD(){
+    getdateglobal.setDate(getdateglobal.getDate() + 1); // Cập nhật ngày trước khi sử dụng nó
+    var currentDatex = new Date(getdateglobal.getTime() + (24 * 60 * 60 * 1000)).toISOString().split('T')[0];
+    alert(currentDatex + getdateglobal_unchange);
+    if(currentDatex === getdateglobal_unchange){
+        var next_apod1 = document.getElementById('next_apod');
+        next_apod1.style.display = "none";
+        var prev_apod1 = document.getElementById('prev_apod');
+        prev_apod1.style.display = "block";
+    }
     $.ajax({
         type: "GET",
         url: "api/apiAPOD_getnext.php",
         dataType: "json",
-        data: { current_date: currentDate },
+        data: { current_date: currentDatex },
         success: function (response) {
             if (response && response[0]) {
                 var author = response[0].copyright;
@@ -146,25 +173,25 @@ function getnextAPOD(currentDate){
     });
 }
 
-function getEonetData(){
+function getEonetData() {
     $.ajax({
-        url: "api/apigetDataEonet.php", // Thay đổi URL này thành endpoint của bạn
+        url: "api/apigetDataEonet.php",
         method: "GET",
         success: function(data) {
-            var events = JSON.parse(data);
+            var events = data; // Không cần phải parse dữ liệu JSON vì nó đã được parse bởi jQuery
             var tableBody = $("#eonetTable tbody");
             tableBody.empty(); // Xóa các hàng hiện có
             $.each(events, function(index, event) {
                 var row = "<tr>" +
-                    "<td>" + event.id + "</td>" +
-                    "<td>" + event.title + "</td>" +
-                    "<td>" + event.descriptions + "</td>" +
-                    "<td>" + event.link + "</td>" +
-                    "<td>" + event.closed + "</td>" +
-                    "<td>" + event.date_eonet + "</td>" +
-                    "<td>" + event.magnitudeValue + "</td>" +
-                    "<td>" + event.magnitudeUnit + "</td>" +
-                    "<td>" + event.urls + "</td>" +
+                    "<td>" + (event.id !== null ? event.id : "") + "</td>" +
+                    "<td>" + (event.title !== null ? event.title : "") + "</td>" +
+                    "<td>" + (event.descriptions !== null ? event.descriptions : "") + "</td>" +
+                    "<td>" + (event.link !== null ? event.link : "") + "</td>" +
+                    "<td>" + (event.closed !== null ? event.closed : "") + "</td>" +
+                    "<td>" + (event.date_eonet !== null ? event.date_eonet : "") + "</td>" +
+                    "<td>" + (event.magnitudeValue !== null ? event.magnitudeValue : "") + "</td>" +
+                    "<td>" + (event.magnitudeUnit !== null ? event.magnitudeUnit : "") + "</td>" +
+                    "<td>" + (event.urls !== null ? event.urls : "") + "</td>" +
                     "</tr>";
                 tableBody.append(row);
             });

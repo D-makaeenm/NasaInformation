@@ -5,37 +5,45 @@ $connectionOptions = array(
     "Uid" => "sa",
     "PWD" => "makaeenm1"
 );
-
-// Kết nối đến cơ sở dữ liệu
 $conn = sqlsrv_connect($serverName, $connectionOptions);
 
 // Kiểm tra kết nối
 if ($conn === false) {
-    echo json_encode(array("error" => "Kết nối thất bại: " . sqlsrv_errors()));
+    echo "Kết nối thất bại: " . sqlsrv_errors();
     exit;
 }
 
-// Lấy ngày hiện tại
+// Lấy ngày từ tham số được truyền từ JavaScript
 $currentDate = isset($_GET['current_date']) ? $_GET['current_date'] : date('Y-m-d');
-
-// Gọi stored procedure
-$sql = "{CALL GetNextApodData(?)}";
+// Chuẩn bị câu truy vấn
+$sql = "EXEC GetNextApodData @TargetDate = ?";
 $params = array(&$currentDate);
 $stmt = sqlsrv_query($conn, $sql, $params);
 
-// Kiểm tra lỗi
+// Kiểm tra và thực thi câu truy vấn
 if ($stmt === false) {
-    echo json_encode(array("error" => "Lỗi khi thực thi stored procedure: " . sqlsrv_errors()));
+    $errors = sqlsrv_errors();
+    if ($errors !== null) {
+        echo "Lỗi khi thực thi stored procedure: ";
+        foreach ($errors as $error) {
+            echo "SQLSTATE: " . $error['SQLSTATE'] . ", code: " . $error['code'] . ", message: " . $error['message'];
+        }
+    } else {
+        echo "Lỗi khi thực thi stored procedure nhưng không có thông tin lỗi được trả về.";
+    }
     exit;
 }
 
-// Lấy dữ liệu từ kết quả
+
+// Khởi tạo mảng để lưu trữ dữ liệu
 $data = array();
+
+// Lặp qua kết quả trả về từ stored procedure và thêm vào mảng
 while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
     $data[] = $row;
 }
 
-// Đóng kết nối và giải phóng bộ nhớ
+// Đóng kết nối
 sqlsrv_free_stmt($stmt);
 sqlsrv_close($conn);
 

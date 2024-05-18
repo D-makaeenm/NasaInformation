@@ -7,19 +7,33 @@ $connectionOptions = array(
 );
 $conn = sqlsrv_connect($serverName, $connectionOptions);
 
-// Check connect
-if (!$conn) {
+// Kiểm tra kết nối
+if ($conn === false) {
     echo "Kết nối thất bại: " . sqlsrv_errors();
     exit;
 }
 
-$sql = "EXEC GetYesterdayApodData";
-$stmt = sqlsrv_query($conn, $sql);
+// Lấy ngày từ tham số được truyền từ JavaScript
+$currentDate = isset($_GET['current_date']) ? $_GET['current_date'] : date('Y-m-d');
+// Chuẩn bị câu truy vấn
+$sql = "EXEC GetYesterdayApodData @TargetDate = ?";
+$params = array(&$currentDate);
+$stmt = sqlsrv_query($conn, $sql, $params);
 
+// Kiểm tra và thực thi câu truy vấn
 if ($stmt === false) {
-    echo "Lỗi khi thực thi stored procedure: " . sqlsrv_errors();
+    $errors = sqlsrv_errors();
+    if ($errors !== null) {
+        echo "Lỗi khi thực thi stored procedure: ";
+        foreach ($errors as $error) {
+            echo "SQLSTATE: " . $error['SQLSTATE'] . ", code: " . $error['code'] . ", message: " . $error['message'];
+        }
+    } else {
+        echo "Lỗi khi thực thi stored procedure nhưng không có thông tin lỗi được trả về.";
+    }
     exit;
 }
+
 
 // Khởi tạo mảng để lưu trữ dữ liệu
 $data = array();
