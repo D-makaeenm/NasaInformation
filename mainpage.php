@@ -68,6 +68,10 @@
             </div>
             <div id="img_apod">
                 <img src="" alt="Chưa load được ảnh">
+                <video id="video_apod" width="960" height="720" controls>
+                    <source src="" type="video/mp4">
+                    Không có nguồn video
+                </video>
                 <!-- https://apod.nasa.gov/apod/image/2405/WrightDobbs_Georgia_Aurora_2.jpg 16-5-2024 -->
                 <div id="explanation_img">
                     <p id="author">Chưa load được tác giả</p>
@@ -77,7 +81,7 @@
                 </div>
             </div>
         </div>
-        <div id="mainpage_EONET">
+        <div id="mainpage_EONET" style="display:none;">
             <h2>EONET Events</h2>
             <div id="table_eonet">
                 <table>

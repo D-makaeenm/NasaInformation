@@ -57,7 +57,7 @@ $(document).ready(function() {
 });
 
 
-function apod_load(){
+function apod_load() {
     var next_apod = document.getElementById('next_apod');
     next_apod.style.display = "none";
     $.ajax({
@@ -65,33 +65,37 @@ function apod_load(){
         url: "api/apiAPOD_getlastest.php",
         dataType: "json",
         success: function (response) {
-            // Kiểm tra xem dữ liệu trả về từ API có tồn tại và hợp lệ không
             if (response && response[0]) {
-                // Lấy dữ liệu từ response
                 var author = response[0].copyright;
                 var date = response[0].date.date.split(' ')[0];
                 var title = response[0].title;
                 var explanation = response[0].explanation;
                 var imageUrl = response[0].hdurl;
-                //var translate_explanation = response[0].translate_explanation;
-        
-                // Cập nhật nội dung của các phần tử HTML trong #img_apod
+                var url = response[0].url;
+
                 $("#author").text(author);
                 $("#date_post").text(date);
                 $("#title_post").text(title);
                 $("#explanation").text(explanation);
-                $("#img_apod img").attr("src", imageUrl);
-                //$("#explanation_translate").text(translate_explanation);
+
+                if (imageUrl) {
+                    $("#img_apod img").attr("src", imageUrl);
+                    $("#video_apod").css("display", "none");
+                } else {
+                    $("#img_apod img").attr("src", "");
+                    $("#video_apod source").attr("src", url);
+                    $("#video_apod").css("display", "block");
+                }
             } else {
                 console.error("Dữ liệu trả về từ API không hợp lệ hoặc không tồn tại.");
             }
         },
-        error: function(xhr, status, error) {
-            // Xử lý lỗi nếu có
+        error: function (xhr, status, error) {
             console.error("Lỗi khi gửi yêu cầu AJAX: " + error);
         }
     });
 }
+
 
 function getprevAPOD() {
     getdateglobal.setDate(getdateglobal.getDate() - 1);
