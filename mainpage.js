@@ -1,3 +1,5 @@
+var getdateglobal = new Date();
+var getdateglobal_unchange;
 $(document).ready(function() {
     apod_load();
     $('.navbar-brand').click(function(){
@@ -48,12 +50,12 @@ $(document).ready(function() {
     });
     
     getdateglobal.setDate(getdateglobal.getDate() - 1);
+    getdateglobal_unchange = getdateglobal;
+    getdateglobal_unchange = getdateglobal_unchange.toISOString().split('T')[0];
     console.log(getdateglobal + "onload");
 
 });
-var getdateglobal = new Date();
-var getdateglobal_unchange = getdateglobal;
-getdateglobal_unchange = getdateglobal_unchange.toISOString().split('T')[0];
+
 
 function apod_load(){
     var next_apod = document.getElementById('next_apod');
@@ -92,9 +94,10 @@ function apod_load(){
 }
 
 function getprevAPOD() {
-    var currentDate = getdateglobal.toISOString().split('T')[0];
     getdateglobal.setDate(getdateglobal.getDate() - 1);
-    console.log(getdateglobal +"indasd");
+    var currentDate = getdateglobal.toISOString().split('T')[0];
+    console.log(getdateglobal +"glb prev" );
+    console.log(getdateglobal_unchange +"glb_u prev" );
     alert(currentDate);
     if(currentDate === "2024-05-16"){
         var next_apod1 = document.getElementById('prev_apod');
@@ -136,8 +139,10 @@ function getprevAPOD() {
 
 function getnextAPOD(){
     getdateglobal.setDate(getdateglobal.getDate() + 1); // Cập nhật ngày trước khi sử dụng nó
-    var currentDatex = new Date(getdateglobal.getTime() + (24 * 60 * 60 * 1000)).toISOString().split('T')[0];
-    alert(currentDatex + getdateglobal_unchange);
+    // var currentDatex = new Date(getdateglobal.getTime() + (24 * 60 * 60 * 1000)).toISOString().split('T')[0];
+    var currentDatex = getdateglobal.toISOString().split('T')[0];
+    console.log(getdateglobal + "glb next");
+    console.log(currentDatex + "cr next");
     if(currentDatex === getdateglobal_unchange){
         var next_apod1 = document.getElementById('next_apod');
         next_apod1.style.display = "none";
@@ -174,30 +179,39 @@ function getnextAPOD(){
 }
 
 function getEonetData() {
-    $.ajax({
-        url: "api/apigetDataEonet.php",
-        method: "GET",
-        success: function(data) {
-            var events = data; // Không cần phải parse dữ liệu JSON vì nó đã được parse bởi jQuery
-            var tableBody = $("#eonetTable tbody");
-            tableBody.empty(); // Xóa các hàng hiện có
-            $.each(events, function(index, event) {
-                var row = "<tr>" +
-                    "<td>" + (event.id !== null ? event.id : "") + "</td>" +
-                    "<td>" + (event.title !== null ? event.title : "") + "</td>" +
-                    "<td>" + (event.descriptions !== null ? event.descriptions : "") + "</td>" +
-                    "<td>" + (event.link !== null ? event.link : "") + "</td>" +
-                    "<td>" + (event.closed !== null ? event.closed : "") + "</td>" +
-                    "<td>" + (event.date_eonet !== null ? event.date_eonet : "") + "</td>" +
-                    "<td>" + (event.magnitudeValue !== null ? event.magnitudeValue : "") + "</td>" +
-                    "<td>" + (event.magnitudeUnit !== null ? event.magnitudeUnit : "") + "</td>" +
-                    "<td>" + (event.urls !== null ? event.urls : "") + "</td>" +
-                    "</tr>";
-                tableBody.append(row);
-            });
-        },
-        error: function(xhr, status, error) {
-            console.error("Error fetching data:", error);
-        }
+    fetch('http://localhost/nasaInformation/api/apigetDataEonet.php')
+        .then(response => response.json())
+        .then(data => {
+            displayEventData(data);
+        })
+        .catch(error => {
+            console.error('Error fetching event data:', error);
+        });
+}
+
+function displayEventData(events) {
+    const tableBody = document.querySelector('#table_eonet table tbody');
+    if (!tableBody) {
+        console.error('Table body not found');
+        return;
+    }
+
+    tableBody.innerHTML = ''; // Xóa nội dung cũ
+
+    events.forEach(event => {
+        const row = `
+            <tr>
+                <td>${event.id}</td>
+                <td>${event.title}</td>
+                <td>${event.descriptions}</td>
+                <td>${event.link ? '<a href="' + event.link + '">More info</a>' : ''}</td>
+                <td>${event.closed}</td>
+                <td>${event.date_eonet}</td>
+                <td>${event.magnitudeValue}</td>
+                <td>${event.magnitudeUnit}</td>
+                <td>${event.urls ? '<a href="' + event.urls + '">More info</a>' : ''}</td>
+            </tr>
+        `;
+        tableBody.innerHTML += row;
     });
 }

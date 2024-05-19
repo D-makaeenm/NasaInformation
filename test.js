@@ -10,19 +10,26 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function displayEventData(events) {
-    const volcanoDataElement = document.getElementById('volcanoData');
-    let html = '<h2>Volcano Events</h2>';
-    html += '<ul>';
+    const tableBody = document.querySelector('#table_eonet table tbody');
+    if (!tableBody) {
+        console.error('Table body not found');
+        return;
+    }
 
     events.forEach(event => {
-        html += '<li>';
-        html += '<strong>Title:</strong> ' + event.title + '<br>';
-        html += '<strong>Date:</strong> ' + event.date_eonet + '<br>';
-        html += '<strong>Link:</strong> <a href="' + event.link + '">More info</a>';
-        html += '</li>';
+        const row = `
+            <tr>
+                <td>${event.id}</td>
+                <td>${event.title}</td>
+                <td>${event.descriptions}</td>
+                <td>${event.link ? '<a href="' + event.link + '">More info</a>' : ''}</td>
+                <td>${event.closed}</td>
+                <td>${event.date_eonet}</td>
+                <td>${event.magnitudeValue}</td>
+                <td>${event.magnitudeUnit}</td>
+                <td>${event.urls}</td>
+            </tr>
+        `;
+        tableBody.innerHTML += row;
     });
-
-    html += '</ul>';
-
-    volcanoDataElement.innerHTML = html;
 }

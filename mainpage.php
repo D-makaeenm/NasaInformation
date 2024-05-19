@@ -16,7 +16,6 @@
     <title>Thông tin về thiên văn học</title>
     <link rel="stylesheet" href="mainpage.css">
     <script src="mainpage.js"></script>
-    <script src="test.js"></script>
 </head>
 
 <body>
@@ -96,7 +95,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Dữ liệu sẽ được thêm bằng mã PHP hoặc JavaScript -->
+                        <!-- Dữ liệu sẽ được thêm bằng mã JavaScript -->
                     </tbody>
                 </table>
             </div>
