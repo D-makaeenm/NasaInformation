@@ -8,33 +8,6 @@
         "env": []
     },
     {
-        "id": "bbf8ce5817c1b9f2",
-        "type": "tab",
-        "label": "Flow 1",
-        "disabled": false,
-        "info": "",
-        "env": []
-    },
-    {
-        "id": "0a9e607d3e6ecf26",
-        "type": "MSSQL-CN",
-        "tdsVersion": "7_4",
-        "name": "SQLServer",
-        "server": "DUYVPRO",
-        "port": "1433",
-        "encyption": true,
-        "trustServerCertificate": true,
-        "database": "nasa",
-        "useUTC": true,
-        "connectTimeout": "15000",
-        "requestTimeout": "15000",
-        "cancelTimeout": "5000",
-        "pool": "5",
-        "parseJSON": false,
-        "enableArithAbort": true,
-        "readOnlyIntent": false
-    },
-    {
         "id": "0c5cc871d2a656b4",
         "type": "inject",
         "z": "9bb66bd4d6d678d6",
@@ -888,7 +861,8 @@
         "y": 800,
         "wires": [
             [
-                "5f670d83cdd3e4c4"
+                "5f670d83cdd3e4c4",
+                "9e093263216b42a6"
             ]
         ]
     },
@@ -924,5 +898,40 @@
         "x": 880,
         "y": 620,
         "wires": []
+    },
+    {
+        "id": "9e093263216b42a6",
+        "type": "debug",
+        "z": "9bb66bd4d6d678d6",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1100,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "0a9e607d3e6ecf26",
+        "type": "MSSQL-CN",
+        "tdsVersion": "7_4",
+        "name": "SQLServer",
+        "server": "DUYVPRO",
+        "port": "1433",
+        "encyption": true,
+        "trustServerCertificate": true,
+        "database": "nasa",
+        "useUTC": true,
+        "connectTimeout": "15000",
+        "requestTimeout": "15000",
+        "cancelTimeout": "5000",
+        "pool": "5",
+        "parseJSON": false,
+        "enableArithAbort": true,
+        "readOnlyIntent": false
     }
 ]
