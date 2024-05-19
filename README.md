@@ -4,17 +4,17 @@
 Sử dụng api từ nasa để lấy thông tin về thiên văn học, vũ trụ, ...
 
 ## Cơ sở dữ liệu
-- Bảng apod (id, copyright, date, explanation, hdurl, media_type, service_version, title, url) Lưu thông tin về bức ảnh
-- SP: GetLatestApodData, GetNextApodData, GetYesterdayApodData lấy thông tin về apod và nút prev, next
-- Bảng EONET_infor (Lưu thông tin về các sự kiện): event_id(PK), title, description, link, event_date
-- Stored Procedures: SP_get5nearestenvent: Lấy thông tin về 5 sự kiện tự nhiên xảy ra gần đây nhất
+- Bảng apod (id(PK), copyright, date, explanation, hdurl, media_type, service_version, title, url): Lưu thông tin về bức ảnh
+- Bảng MarsRoverPhotos id(PK): Lưu trữ thông tin về các bức ảnh chụp trên sao hỏa có 
+- Bảng EONET_infor (Lưu thông tin về các sự kiện): uid(PK), id, title, descriptions, link, closed, date_eonet, magnitudeValue, magnitudeUnit, urls
+- Có 7 Store Procedure
 
 ## Module đọc dữ liệu
 Sử dụng Python và fastapi để lấy dữ liệu từ website nasa
 
 ## Mô tả nguồn dữ liệu
-- Sử dụng Web Scraping hoặc lấy dữ liệu qua API của các trang web chuyên về bóng đá.
-- Dữ liệu bao gồm thông tin về các sự kiện tự nhiên, địa điểm, thời điểm
+- Sử dụng Web Scraping để lấy dữ liệu từ trang API của Nasa
+- Dữ liệu bao gồm thông tin về các sự kiện tự nhiên, địa điểm, thời điểm, ảnh chụp sự kiện thiên văn, ảnh chụp sao hỏa,...
 
 ## Node-red
 Xây dựng flow để tự động gọi api liên tục để lấy dữ liệu. Sau đó xử lý dữ liệu và insert vào db
@@ -27,7 +27,7 @@ Xây dựng flow để tự động gọi api liên tục để lấy dữ liệ
 ## Lưu ý
 - Chạy uvicorn main:app --reload --port 1234 để lấy api ở port: 1234
 - Chạy node-red và import flow.json
-- git clone project api của nasa về qua link: https://github.com/nasa/apod-api.git
+- git clone project api của nasa về qua link: https://github.com/nasa/apod-api.git và chạy file application.py
 
 ## Cập Nhật
 Nếu có bất kỳ vấn đề hoặc yêu cầu nâng cấp, vui lòng tạo một issue mới trong repository này.

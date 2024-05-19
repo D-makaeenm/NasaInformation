@@ -32,3 +32,14 @@ async def get_data_eonet():
         print(f"Error: {response.status_code}")
     
     return JSONResponse(data)
+
+@app.get("/Mars-Rover-Photos")
+async def get_data_mars_rover_photos():
+    url = f"https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key={api_key}"
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+    else:
+        print(f"Error: {response.status_code}")
+    
+    return JSONResponse(data)

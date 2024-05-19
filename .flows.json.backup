@@ -545,8 +545,8 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 270,
-        "y": 500,
+        "x": 330,
+        "y": 380,
         "wires": [
             [
                 "f789d6b4cc9d749d"
@@ -562,8 +562,8 @@
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 110,
-        "y": 420,
+        "x": 150,
+        "y": 380,
         "wires": [
             [
                 "8c5d922942c75d33"
@@ -577,8 +577,8 @@
         "name": "",
         "statusCode": "200",
         "headers": {},
-        "x": 460,
-        "y": 460,
+        "x": 480,
+        "y": 380,
         "wires": []
     },
     {
@@ -590,8 +590,8 @@
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 180,
-        "y": 700,
+        "x": 140,
+        "y": 440,
         "wires": [
             [
                 "f9085daa397b5c9e"
@@ -605,8 +605,8 @@
         "name": "",
         "statusCode": "200",
         "headers": {},
-        "x": 540,
-        "y": 700,
+        "x": 460,
+        "y": 440,
         "wires": []
     },
     {
@@ -615,7 +615,7 @@
         "z": "9bb66bd4d6d678d6",
         "name": "",
         "method": "GET",
-        "ret": "txt",
+        "ret": "obj",
         "paytoqs": "ignore",
         "url": "http://localhost/nasaInformation/api/apigetDataEonet.php",
         "tls": "",
@@ -625,12 +625,304 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 370,
-        "y": 700,
+        "x": 310,
+        "y": 440,
         "wires": [
             [
                 "9614c4a9cde40e98"
             ]
         ]
+    },
+    {
+        "id": "1ec3b31a256f7d27",
+        "type": "inject",
+        "z": "9bb66bd4d6d678d6",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 680,
+        "wires": [
+            [
+                "60c47d01ab1d9e95"
+            ]
+        ]
+    },
+    {
+        "id": "60c47d01ab1d9e95",
+        "type": "http request",
+        "z": "9bb66bd4d6d678d6",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:1234/Mars-Rover-Photos",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 310,
+        "y": 680,
+        "wires": [
+            [
+                "55cfed46ad24a179"
+            ]
+        ]
+    },
+    {
+        "id": "db3677cfd6d4dd62",
+        "type": "function",
+        "z": "9bb66bd4d6d678d6",
+        "name": "function 3",
+        "func": "// Kiểm tra xem msg.payload.photos có tồn tại không\nif (msg.payload && msg.payload.photos) {\n    // Lấy dữ liệu từ msg.payload.photos\n    var photos = msg.payload.photos;\n    var filteredData = [];\n\n    // Lặp qua mảng photos\n    photos.forEach(function (photo) {\n        // Kiểm tra ngày của ảnh\n        var eventDate = new Date(photo.earth_date);\n        if (eventDate.getFullYear() === 2015) {\n            // Nếu ảnh được chụp vào năm 2015, thêm vào mảng filteredData\n            var eventData = {\n                id: photo.id,\n                sol: photo.sol,\n                full_name: photo.camera.full_name,\n                img_src: photo.img_src,\n                total_photos: photo.rover.total_photos,\n                earth_date: photo.earth_date,\n                launch_date: photo.rover.launch_date,\n                landing_date: photo.rover.landing_date\n            };\n            filteredData.push(eventData);\n        }\n    });\n\n    // Gửi dữ liệu đã được lọc qua output\n    msg.payload = filteredData;\n} else {\n    // Xử lý khi msg.payload.photos không tồn tại\n    console.error(\"Không có dữ liệu photos trong msg.payload\");\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 680,
+        "wires": [
+            [
+                "73e731109c7c01c5",
+                "3a9e00fd6a6fe76f"
+            ]
+        ]
+    },
+    {
+        "id": "55cfed46ad24a179",
+        "type": "json",
+        "z": "9bb66bd4d6d678d6",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 470,
+        "y": 680,
+        "wires": [
+            [
+                "db3677cfd6d4dd62"
+            ]
+        ]
+    },
+    {
+        "id": "3a9e00fd6a6fe76f",
+        "type": "json",
+        "z": "9bb66bd4d6d678d6",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 650,
+        "y": 800,
+        "wires": [
+            [
+                "198327956a4bb38a"
+            ]
+        ]
+    },
+    {
+        "id": "5f670d83cdd3e4c4",
+        "type": "MSSQL",
+        "z": "9bb66bd4d6d678d6",
+        "mssqlCN": "0a9e607d3e6ecf26",
+        "name": "",
+        "outField": "payload",
+        "returnType": 0,
+        "throwErrors": 1,
+        "query": "InsertApodData",
+        "modeOpt": "",
+        "modeOptType": "query",
+        "queryOpt": "payload",
+        "queryOptType": "msg",
+        "paramsOpt": "queryParams",
+        "paramsOptType": "msg",
+        "rows": "rows",
+        "rowsType": "msg",
+        "parseMustache": true,
+        "params": [
+            {
+                "output": false,
+                "name": "copyright",
+                "type": "NVarChar",
+                "valueType": "msg",
+                "value": "payload.copyright",
+                "options": {
+                    "nullable": true,
+                    "primary": false,
+                    "identity": false,
+                    "readOnly": false
+                }
+            },
+            {
+                "output": false,
+                "name": "date",
+                "type": "Date",
+                "valueType": "msg",
+                "value": "payload.date",
+                "options": {
+                    "nullable": true,
+                    "primary": false,
+                    "identity": false,
+                    "readOnly": false
+                }
+            },
+            {
+                "output": false,
+                "name": "explanation",
+                "type": "Text",
+                "valueType": "msg",
+                "value": "payload.explanation",
+                "options": {
+                    "nullable": true,
+                    "primary": false,
+                    "identity": false,
+                    "readOnly": false
+                }
+            },
+            {
+                "output": false,
+                "name": "hdurl",
+                "type": "NVarChar",
+                "valueType": "msg",
+                "value": "payload.hdurl",
+                "options": {
+                    "nullable": true,
+                    "primary": false,
+                    "identity": false,
+                    "readOnly": false
+                }
+            },
+            {
+                "output": false,
+                "name": "media_type",
+                "type": "NVarChar",
+                "valueType": "msg",
+                "value": "payload.media_type",
+                "options": {
+                    "nullable": true,
+                    "primary": false,
+                    "identity": false,
+                    "readOnly": false
+                }
+            },
+            {
+                "output": false,
+                "name": "service_version",
+                "type": "NVarChar",
+                "valueType": "msg",
+                "value": "payload.service_version",
+                "options": {
+                    "nullable": true,
+                    "primary": false,
+                    "identity": false,
+                    "readOnly": false
+                }
+            },
+            {
+                "output": false,
+                "name": "title",
+                "type": "NVarChar",
+                "valueType": "msg",
+                "value": "payload.title",
+                "options": {
+                    "nullable": true,
+                    "primary": false,
+                    "identity": false,
+                    "readOnly": false
+                }
+            },
+            {
+                "output": false,
+                "name": "url",
+                "type": "NVarChar",
+                "valueType": "msg",
+                "value": "payload.url",
+                "options": {
+                    "nullable": true,
+                    "primary": false,
+                    "identity": false,
+                    "readOnly": false
+                }
+            }
+        ],
+        "x": 680,
+        "y": 1000,
+        "wires": [
+            [
+                "b6ee8889281273a0"
+            ]
+        ]
+    },
+    {
+        "id": "198327956a4bb38a",
+        "type": "function",
+        "z": "9bb66bd4d6d678d6",
+        "name": "Prepare Bulk Insert Query",
+        "func": "var data = msg.payload; // Giả sử msg.payload là mảng các đối tượng JSON\nvar bulkInsertValues = [];\n\ndata.forEach(function (event) {\n    var values = `('${event.id}', '${event.sol}', '${event.full_name}', '${event.img_src}', ${event.total_photos}, '${event.earth_date}', '${event.launch_date}', '${event.landing_date}')`;\n    bulkInsertValues.push(values);\n});\n\nvar bulkInsertQuery = `INSERT INTO MarsRoverPhotos (id, sol, full_name, img_src, total_photos, earth_date, launch_date, landing_date) VALUES ${bulkInsertValues.join(\", \")}`;\n\nmsg.payload = bulkInsertQuery;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 870,
+        "y": 800,
+        "wires": [
+            [
+                "5f670d83cdd3e4c4"
+            ]
+        ]
+    },
+    {
+        "id": "b6ee8889281273a0",
+        "type": "debug",
+        "z": "9bb66bd4d6d678d6",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 670,
+        "y": 1080,
+        "wires": []
+    },
+    {
+        "id": "73e731109c7c01c5",
+        "type": "debug",
+        "z": "9bb66bd4d6d678d6",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 880,
+        "y": 620,
+        "wires": []
     }
 ]

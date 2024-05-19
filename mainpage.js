@@ -29,8 +29,10 @@ $(document).ready(function() {
         apod_load();
         var apod_page = document.getElementById('mainpage_APOD');
         var eonet_page = document.getElementById('mainpage_EONET');
+        var MRP_page = document.getElementById('mainpage_MRP');
         eonet_page.style.display = "none";
         apod_page.style.display = "block";
+        MRP_page.style.display = "none";
     });
     $('#eonet_navbar').click(function(){
         getEonetData();
@@ -38,6 +40,17 @@ $(document).ready(function() {
         var eonet_page = document.getElementById('mainpage_EONET');
         eonet_page.style.display = "block";
         apod_page.style.display = "none";
+        var MRP_page = document.getElementById('mainpage_MRP');
+        MRP_page.style.display = "none";
+    });
+    $('#MRP_navbar').click(function(){
+        getMRP();
+        var apod_page = document.getElementById('mainpage_APOD');
+        var eonet_page = document.getElementById('mainpage_EONET');
+        eonet_page.style.display = "none";
+        apod_page.style.display = "none";
+        var MRP_page = document.getElementById('mainpage_MRP');
+        MRP_page.style.display = "block";
     });
     $('#prev_apod').click(function(){
         getprevAPOD();
@@ -49,13 +62,47 @@ $(document).ready(function() {
         getnextAPOD(currentDate);
     });
     
-    getdateglobal.setDate(getdateglobal.getDate() - 1);
+    // getdateglobal.setDate(getdateglobal.getDate() - 1);
     getdateglobal_unchange = getdateglobal;
     getdateglobal_unchange = getdateglobal_unchange.toISOString().split('T')[0];
     console.log(getdateglobal + "onload");
 
 });
 
+function getMRP(){
+    $.ajax({
+        url: 'api/apigetMPR.php',
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            // Xử lý dữ liệu trả về
+            displayData(data);
+        },
+        error: function(xhr, status, error) {
+            console.error('Error fetching data:', error);
+        }
+    });
+
+    function displayData(data) {
+        // Xóa nội dung cũ của bảng
+        $('#photoTable tbody').empty();
+
+        // Thêm dữ liệu vào bảng
+        $.each(data, function(index, photo) {
+            var row = `<tr>
+                <td>${photo.id}</td>
+                <td>${photo.sol}</td>
+                <td>${photo.full_name}</td>
+                <td><img src="${photo.img_src}" alt="Mars Rover Photo" style="width: 100px;"></td>
+                <td>${photo.total_photos}</td>
+                <td>${photo.earth_date}</td>
+                <td>${photo.launch_date}</td>
+                <td>${photo.landing_date}</td>
+            </tr>`;
+            $('#photoTable tbody').append(row);
+        });
+    }
+}
 
 function apod_load() {
     var next_apod = document.getElementById('next_apod');
@@ -71,20 +118,22 @@ function apod_load() {
                 var title = response[0].title;
                 var explanation = response[0].explanation;
                 var imageUrl = response[0].hdurl;
-                var url = response[0].url;
+                var videoUrl = response[0].url;
 
                 $("#author").text(author);
                 $("#date_post").text(date);
                 $("#title_post").text(title);
                 $("#explanation").text(explanation);
-
-                if (imageUrl) {
+                var iframe = document.querySelector('#video_apod iframe');
+                iframe.setAttribute('src', videoUrl);
+                if (imageUrl !== null) {
+                    var element = document.getElementById('video_apod');
+                    element.style.display = "none";
                     $("#img_apod img").attr("src", imageUrl);
-                    $("#video_apod").css("display", "none");
                 } else {
-                    $("#img_apod img").attr("src", "");
-                    $("#video_apod source").attr("src", url);
-                    $("#video_apod").css("display", "block");
+                    var element = document.getElementById('video_apod');
+                    element.style.display = "block";
+                    $("#img_apod img").css("display", "none");
                 }
             } else {
                 console.error("Dữ liệu trả về từ API không hợp lệ hoặc không tồn tại.");
@@ -102,7 +151,6 @@ function getprevAPOD() {
     var currentDate = getdateglobal.toISOString().split('T')[0];
     console.log(getdateglobal +"glb prev" );
     console.log(getdateglobal_unchange +"glb_u prev" );
-    alert(currentDate);
     if(currentDate === "2024-05-16"){
         var next_apod1 = document.getElementById('prev_apod');
         next_apod1.style.display = "none";
@@ -121,6 +169,7 @@ function getprevAPOD() {
                 var title = response[0].title;
                 var explanation = response[0].explanation;
                 var imageUrl = response[0].hdurl;
+                var videoUrl = response[0].url;
                 //var translate_explanation = response[0].translate_explanation;
         
                 // Cập nhật nội dung của các phần tử HTML trong #img_apod
@@ -129,6 +178,18 @@ function getprevAPOD() {
                 $("#title_post").text(title);
                 $("#explanation").text(explanation);
                 $("#img_apod img").attr("src", imageUrl);
+                var iframe = document.querySelector('#video_apod iframe');
+                iframe.setAttribute('src', videoUrl);
+                var element = document.getElementById('video_apod');
+                var element1 = document.getElementById('img_apod_in');
+                if (imageUrl !== null) {
+                    $("#img_apod img").attr("src", imageUrl);
+                    element.style.display = "none";
+                    element1.style.display = "block";
+                } else {
+                    element.style.display = "block";
+                    element1.style.display = "none";
+                }
                 //$("#explanation_translate").text(translate_explanation);
             } else {
                 console.error("Dữ liệu trả về từ API không hợp lệ hoặc không tồn tại.");
@@ -165,6 +226,7 @@ function getnextAPOD(){
                 var title = response[0].title;
                 var explanation = response[0].explanation;
                 var imageUrl = response[0].hdurl;
+                var videoUrl = response[0].url;
 
                 // Cập nhật nội dung trên trang web
                 $("#author").text(author);
@@ -172,6 +234,18 @@ function getnextAPOD(){
                 $("#title_post").text(title);
                 $("#explanation").text(explanation);
                 $("#img_apod img").attr("src", imageUrl);
+                var iframe = document.querySelector('#video_apod iframe');
+                iframe.setAttribute('src', videoUrl);
+                var element = document.getElementById('video_apod');
+                var element1 = document.getElementById('img_apod_in');
+                if (imageUrl !== null) {
+                    $("#img_apod img").attr("src", imageUrl);
+                    element.style.display = "none";
+                    element1.style.display = "block";
+                } else {
+                    element.style.display = "block";
+                    element1.style.display = "none";
+                }
             } else {
                 console.error("Dữ liệu trả về từ API không hợp lệ hoặc không tồn tại.");
             }

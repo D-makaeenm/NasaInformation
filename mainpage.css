@@ -111,3 +111,15 @@ th, td {
 th {
     background-color: #f2f2f2;
 }
+#title_MRP{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#title_MRP h1{
+    text-align: center;
+}
+#mainpage_MRP{
+    display: flex;
+    flex-direction: column;
+}

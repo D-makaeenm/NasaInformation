@@ -38,7 +38,10 @@
                             <li class="nav-item">
                                 <a class="nav-link" id="eonet_navbar" href="#">EONET</a>
                             </li>
-                            <li class="nav-item dropdown">
+                            <li class="nav-item">
+                                <a class="nav-link" id="MRP_navbar" href="#">Ảnh chụp bề mặt sao hỏa</a>
+                            </li>
+                            <!-- <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                     aria-expanded="false">
                                     Dropdown
@@ -51,7 +54,7 @@
                                     </li>
                                     <li><a class="dropdown-item" href="#">Something else here</a></li>
                                 </ul>
-                            </li>
+                            </li> -->
                         </ul>
                     </div>
                 </div>
@@ -67,11 +70,10 @@
                 <button id="sumbit_picked_date">Xem</button> -->
             </div>
             <div id="img_apod">
-                <img src="" alt="Chưa load được ảnh">
-                <video id="video_apod" width="960" height="720" controls>
-                    <source src="" type="video/mp4">
-                    Không có nguồn video
-                </video>
+                <img id="img_apod_in" src="" alt="Chưa load được ảnh">
+                <div id="video_apod" style="display:none;">
+                    <iframe width="960" height="720" src="" frameborder="0" allowfullscreen></iframe>
+                </div>
                 <!-- https://apod.nasa.gov/apod/image/2405/WrightDobbs_Georgia_Aurora_2.jpg 16-5-2024 -->
                 <div id="explanation_img">
                     <p id="author">Chưa load được tác giả</p>
@@ -88,19 +90,41 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Title</th>
-                            <th>Description</th>
-                            <th>Link</th>
+                            <th>Tiêu đề</th>
+                            <th>Mô tả</th>
+                            <th>Link dữ liệu</th>
                             <th>Closed</th>
-                            <th>Date EONET</th>
-                            <th>Magnitude Value</th>
-                            <th>Magnitude Unit</th>
-                            <th>URLs</th>
+                            <th>Ngày diễn ra</th>
+                            <th>Giá trị độ lớn</th>
+                            <th>Đơn vị độ lớn</th>
+                            <th>Link tới sự kiện</th>
                         </tr>
                     </thead>
                     <tbody>
                         <!-- Dữ liệu sẽ được thêm bằng mã JavaScript -->
                     </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="mainpage_MRP" style="display:none;">
+            <div id="title_MRP">
+                <h1>Thông tin về ảnh chụp sao hỏa</h1>
+            </div>
+            <div>
+                <table id="photoTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Ngày ở trên sao hỏa</th>
+                            <th>Tên đầy đủ</th>
+                            <th>Ảnh chụp</th>
+                            <th>Số ảnh đã chụp</th>
+                            <th>Ngày theo Trái Đất</th>
+                            <th>Ngày phóng</th>
+                            <th>Ngày hạ cánh</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
                 </table>
             </div>
         </div>
