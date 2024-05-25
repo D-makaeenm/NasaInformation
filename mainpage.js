@@ -141,6 +141,7 @@ function apod_load() {
         },
         error: function (xhr, status, error) {
             console.error("Lỗi khi gửi yêu cầu AJAX: " + error);
+            console.log("Dữ liệu JSON trả về từ máy chủ: ", xhr.responseText);
         }
     });
 }
@@ -273,9 +274,7 @@ function displayEventData(events) {
         console.error('Table body not found');
         return;
     }
-
     tableBody.innerHTML = ''; // Xóa nội dung cũ
-
     events.forEach(event => {
         const row = `
             <tr>

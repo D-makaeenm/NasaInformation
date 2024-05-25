@@ -2,12 +2,11 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 import requests
 from datetime import datetime, timedelta
-from easygoogletranslate import EasyGoogleTranslate
+from apscheduler.schedulers.background import BackgroundScheduler
 
 app = FastAPI()
 
 api_key = "NbAeciw6tcGxCk3lF7fRh13vh95ykBTua0oLJDdx"
-
 @app.get("/apod") #endopoint
 async def get_data_apod():
     # Gửi yêu cầu GET đến API
@@ -30,6 +29,7 @@ async def get_data_eonet():
         data = response.json()
     else:
         print(f"Error: {response.status_code}")
+        
     
     return JSONResponse(data)
 
@@ -43,3 +43,8 @@ async def get_data_mars_rover_photos():
         print(f"Error: {response.status_code}")
     
     return JSONResponse(data)
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="127.0.0.1", port=1234)
