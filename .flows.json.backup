@@ -47,8 +47,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 110,
-        "y": 60,
+        "x": 170,
+        "y": 940,
         "wires": [
             [
                 "7683bf38584a13e4"
@@ -71,11 +71,11 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 310,
-        "y": 60,
+        "x": 430,
+        "y": 940,
         "wires": [
             [
-                "3c819f0162e06d27"
+                "469cde82d548208d"
             ]
         ]
     },
@@ -204,8 +204,8 @@
                 }
             }
         ],
-        "x": 870,
-        "y": 60,
+        "x": 930,
+        "y": 940,
         "wires": [
             []
         ]
@@ -215,34 +215,19 @@
         "type": "function",
         "z": "9bb66bd4d6d678d6",
         "name": "function 1",
-        "func": "// Lấy dữ liệu JSON từ đầu vào\nvar data = msg.payload;\n\n// Trích xuất dữ liệu từ đối tượng JSON\nvar copyright = data.copyright;\nvar date = data.date;\nvar explanation = data.explanation;\nvar hdurl = data.hdurl;\nvar media_type = data.media_type;\nvar service_version = data.service_version;\nvar title = data.title;\nvar url = data.url;\nvar translate_explanation = data.translate_explanation;\n\n// Lưu trữ dữ liệu vào một đối tượng để truyền vào node mssql\nvar sqlData = {\n    copyright: copyright,\n    date: date,\n    explanation: explanation,\n    hdurl: hdurl,\n    media_type: media_type,\n    service_version: service_version,\n    title: title,\n    url: url,\n    translate_explanation: translate_explanation\n};\n\n// Gửi dữ liệu vào output cho node mssql\nmsg.sqlData = sqlData;\n\nreturn msg;\n",
+        "func": "// Parse chuỗi JSON thành một đối tượng JavaScript\nconst jsonData = JSON.parse(msg.payload);\n\nconst {\n    concepts,\n    date,\n    explanation,\n    media_type,\n    service_version,\n    title,\n    url\n} = jsonData;\n// Tạo một đối tượng mới với các trường tương tự như jsonData\nconst outputMsg = {\n    concepts: concepts,\n    date: date,\n    explanation:explanation,\n    media_type: media_type,\n    service_version:service_version,\n    title: title,\n    url: url\n};\n\nmsg.payload = outputMsg;\n\nreturn msg;\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 680,
-        "y": 60,
+        "x": 660,
+        "y": 940,
         "wires": [
             [
+                "5a14b508f68da0d0",
                 "7dc9ac4b0ef5e3e5"
-            ]
-        ]
-    },
-    {
-        "id": "3c819f0162e06d27",
-        "type": "json",
-        "z": "9bb66bd4d6d678d6",
-        "name": "",
-        "property": "payload",
-        "action": "",
-        "pretty": false,
-        "x": 490,
-        "y": 60,
-        "wires": [
-            [
-                "469cde82d548208d"
             ]
         ]
     },
@@ -489,7 +474,7 @@
         "type": "function",
         "z": "9bb66bd4d6d678d6",
         "name": "Prepare Bulk Insert Query",
-        "func": "var data = msg.payload; // Giả sử msg.payload là mảng các đối tượng JSON\nvar bulkInsertValues = [];\n\ndata.forEach(function(event) {\n    var values = `('${event.id}', '${event.title}', '${event.date}', '${event.link}', ${event.closed !== null ? `'${event.closed}'` : 'NULL'}, ${event.magnitudeValue !== null ? event.magnitudeValue : 'NULL'}, ${event.magnitudeUnit !== null ? `'${event.magnitudeUnit}'` : 'NULL'}, '${event.url}')`;\n    bulkInsertValues.push(values);\n});\n\nvar bulkInsertQuery = `INSERT INTO EONET_Events (id, title, date_eonet, link, closed, magnitudeValue, magnitudeUnit, urls) VALUES ${bulkInsertValues.join(\", \")}`;\n\nmsg.payload = bulkInsertQuery;\nreturn msg;",
+        "func": "var data = msg.payload; // Giả sử msg.payload là mảng các đối tượng JSON\nvar bulkInsertValues = [];\n\ndata.forEach(function(event) {\n    var values = `('${event.id}', \n    '${event.title}', '${event.date}',\n    '${event.link}',\n    ${event.closed !== null ? `'${event.closed}'` : 'NULL'},\n    ${event.magnitudeValue !== null ? event.magnitudeValue : 'NULL'},\n    ${event.magnitudeUnit !== null ? `'${event.magnitudeUnit}'` : 'NULL'},\n    '${event.url}')`;\n    bulkInsertValues.push(values);\n});\n\nvar bulkInsertQuery = `INSERT INTO EONET_Events \n(id, title, date_eonet, link, closed, magnitudeValue, magnitudeUnit, urls) \nVALUES ${bulkInsertValues.join(\", \")}`;\n\nmsg.payload = bulkInsertQuery;\nreturn msg;",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -795,5 +780,63 @@
         "x": 1050,
         "y": 600,
         "wires": []
+    },
+    {
+        "id": "5a14b508f68da0d0",
+        "type": "debug",
+        "z": "9bb66bd4d6d678d6",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 820,
+        "y": 1100,
+        "wires": []
+    },
+    {
+        "id": "36a67000b437c6e7",
+        "type": "inject",
+        "z": "9bb66bd4d6d678d6",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 180,
+        "y": 1000,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d1691ed22d9e2a30",
+        "type": "json",
+        "z": "9bb66bd4d6d678d6",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 630,
+        "y": 1220,
+        "wires": [
+            []
+        ]
     }
 ]

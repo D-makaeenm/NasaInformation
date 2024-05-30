@@ -7,6 +7,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 app = FastAPI()
 
 api_key = "NbAeciw6tcGxCk3lF7fRh13vh95ykBTua0oLJDdx"
+
 @app.get("/apod") #endopoint
 async def get_data_apod():
     # Gửi yêu cầu GET đến API
@@ -18,7 +19,6 @@ async def get_data_apod():
         data = response.json()
     else:
         print(f"Error: {response.status_code}")
-    
     return JSONResponse(data)
 
 @app.get("/EONET")

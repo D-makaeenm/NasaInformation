@@ -47,8 +47,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 110,
-        "y": 60,
+        "x": 170,
+        "y": 940,
         "wires": [
             [
                 "7683bf38584a13e4"
@@ -71,11 +71,11 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 310,
-        "y": 60,
+        "x": 430,
+        "y": 940,
         "wires": [
             [
-                "3c819f0162e06d27"
+                "d1691ed22d9e2a30"
             ]
         ]
     },
@@ -204,8 +204,8 @@
                 }
             }
         ],
-        "x": 870,
-        "y": 60,
+        "x": 930,
+        "y": 940,
         "wires": [
             []
         ]
@@ -215,34 +215,18 @@
         "type": "function",
         "z": "9bb66bd4d6d678d6",
         "name": "function 1",
-        "func": "// Lấy dữ liệu JSON từ đầu vào\nvar data = msg.payload;\n// Trích xuất dữ liệu từ đối tượng JSON\nvar copyright = data.copyright;\nvar date = data.date;\nvar explanation = data.explanation;\nvar hdurl = data.hdurl;\nvar media_type = data.media_type;\nvar service_version = data.service_version;\nvar title = data.title;\nvar url = data.url;\nvar translate_explanation = data.translate_explanation;\n// Lưu trữ dữ liệu vào một đối tượng để truyền vào node mssql\nvar sqlData = {\n    copyright: copyright,\n    date: date,\n    explanation: explanation,\n    hdurl: hdurl,\n    media_type: media_type,\n    service_version: service_version,\n    title: title,\n    url: url,\n    translate_explanation: translate_explanation\n};\n// Gửi dữ liệu vào output cho node mssql\nmsg.sqlData = sqlData;\n\nreturn msg;\n",
+        "func": "var data = msg.payload;\n\nvar copyright = data.copyright;\nvar date = data.date;\nvar explanation = data. explanation;\nvar hdurl = data.hdurl;\nvar service_version = data.service_version;\nvar title = data.title;\nvar url = data.url;\nvar media_type = data.media_type\n\n// Lưu trữ dữ liệu vào một đối tượng để truyền vào node mssql\nvar sqlData = {\n    copyright: copyright,\n    date: date,\n    explanation: explanation,\n    hdurl: hdurl,\n    media_type: media_type,\n    service_version: service_version,\n    title: title,\n    url: url\n};\nmsg.sqlData = sqlData;\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 680,
-        "y": 60,
+        "x": 660,
+        "y": 940,
         "wires": [
             [
                 "7dc9ac4b0ef5e3e5"
-            ]
-        ]
-    },
-    {
-        "id": "3c819f0162e06d27",
-        "type": "json",
-        "z": "9bb66bd4d6d678d6",
-        "name": "",
-        "property": "payload",
-        "action": "",
-        "pretty": false,
-        "x": 490,
-        "y": 60,
-        "wires": [
-            [
-                "469cde82d548208d"
             ]
         ]
     },
@@ -795,5 +779,48 @@
         "x": 1050,
         "y": 600,
         "wires": []
+    },
+    {
+        "id": "36a67000b437c6e7",
+        "type": "inject",
+        "z": "9bb66bd4d6d678d6",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 180,
+        "y": 1000,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d1691ed22d9e2a30",
+        "type": "json",
+        "z": "9bb66bd4d6d678d6",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 550,
+        "y": 940,
+        "wires": [
+            [
+                "469cde82d548208d"
+            ]
+        ]
     }
 ]
